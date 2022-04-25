@@ -1,0 +1,1 @@
+g++ main.cpp base/doubleBufferLog.cpp base/Epoll.cpp base/Timer.cpp base/timerQueue.cpp net/kcpConnection.cpp net/udpConnection.cpp net/udpServer.cpp kcp/ikcp.c -std=c++11 -pthread -o main
