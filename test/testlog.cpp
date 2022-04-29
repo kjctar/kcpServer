@@ -1,4 +1,4 @@
-#include"../base/log.h"
+#include"../base/doubleBufferLog.h"
 #include<vector>
 #include<thread>
 #include <memory>

@@ -14,29 +14,37 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include<memory>
-#include"../base/Epoll.h"
+#include<functional>
+/**
+ * @brief udp是没有连接概念的，那么这里就是实现模拟tcp连接的udp
+ *        有以下几点：
+ *                  1、端口复用
+ *                  2、消息处理回调注册
+ *                  3、是否非阻塞
+ * 
+ */
 class udpConnection{
-    private:
+    protected:
         int socketFd;
-        
-        std::shared_ptr<Epoll> poll;
-        
-       
     public:
         const int MAXBUF=1024*1024;
+        void *user;//指向用户结构 ，用来自定义连接信息
         //广播回调函数
-        std::function<void(char*,int)> cb;
+        std::function<void(std::string)> cb;
         udpConnection()=default;
-        udpConnection(int fd,std::shared_ptr<Epoll> ep);
-        void setCB(std::function<void(char*,int)>  func){
-            cb=func;
+        udpConnection(std::string selfIp,int selfPort,std::string peerIp,int peerPort,
+                            std::function<void(std::string)> msgDeal);
+       
+        int getFd(){
+            return socketFd;
         }
-        virtual void getMsg(int socketFd);
+        virtual void getMsg();
             
-        virtual void sendMsg(char *sendBuffer,int size);
+        virtual void sendMsg(std::string msg);
         virtual ~udpConnection(){
-            
+            close(socketFd);
         }
+
            
 
  };

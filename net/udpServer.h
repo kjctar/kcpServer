@@ -20,15 +20,16 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include<memory>
-
+#include"Epoll.h"
 #include"kcpConnection.h"
 class udpServer{
     private:
         int listenFd;
-        int port;
-        struct sockaddr_in my_addr;
+        int serverPort;
+        std::string serverIP;
         std::shared_ptr<Epoll> poll;
-        std::unordered_map<int,std::unique_ptr<udpConnection>> connList;
+        std::vector<std::unique_ptr<udpConnection>> connList;
+        std::function<void(std::string)> msgDeal;
         timerQueue tmq;
     public:
       
@@ -40,7 +41,7 @@ class udpServer{
         int listen(){
             return listenFd;
         }
-        udpServer(std::shared_ptr<Epoll> ep);
+        udpServer(std::string IP,int PORT,std::shared_ptr<Epoll> ep);
         
         /**
          * @brief  再创建一个udp的socket 并connect对端地址和端口
@@ -48,9 +49,11 @@ class udpServer{
          * @return int 
          */
         int accept();
+        void registMsgDeal(std::function<void(std::string)> deal){
+            msgDeal=deal;
+        }
 
-        void relay(int id,char *buffer,int size);
+        void broadcast(std::string msg);
 
-        void broadcast(char *buffer,int size);
 
 };

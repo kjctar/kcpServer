@@ -1,31 +1,31 @@
 #include"kcpConnection.h"
-kcpConnection::kcpConnection(int fd,std::shared_ptr<Epoll> ep,timerQueue &tmq):udpConnection(fd,ep),tmq(tmq){
+kcpConnection::kcpConnection(std::string selfIp,int selfPort,std::string peerIp,int peerPort,
+                std::function<void(std::string)> msgDeal,timerQueue &tmq):udpConnection(selfIp,selfPort,peerIp,peerPort,msgDeal),tmq(tmq){
         
     std::cout<<"开启kcp"<<std::endl;
-    kcp = ikcp_create(fd, NULL);//暂定
+    kcp = ikcp_create(socketFd, NULL);//暂定
     ikcp_nodelay(kcp, 1, 10, 2, 1);
     ikcp_wndsize(kcp, 128, 128);
-    kcp->user=&fd;
+    kcp->user=&socketFd;
     kcp->output = kcpConnection::kcp_output;
     
 }
-void kcpConnection::setCB(std::function<void(char*,int)>  func){
-    cb=func;
-}
-void kcpConnection::getMsg(int socketFd){
+
+void kcpConnection::getMsg(){
     int  ret;
     char *recvBuffer=new char[MAXBUF];
 
     ret=read(socketFd,recvBuffer,MAXBUF);
     ikcp_input(kcp,recvBuffer,ret);
     ret=ikcp_recv(kcp,recvBuffer,MAXBUF);
-    cb(recvBuffer,ret);
+    *(recvBuffer+ret)='\0';
+    cb(recvBuffer);
     return;
 }
     
-void kcpConnection::sendMsg(char *sendBuffer,int size){
+void kcpConnection::sendMsg(std::string msg){
     std::cout<<"发送："<<std::endl;
-    ikcp_send(kcp,sendBuffer,size);
+    ikcp_send(kcp,msg.data(),msg.size());
     update();
     int nextTime=ikcp_check(kcp,clock());
     if(nextTime<=clock()){
