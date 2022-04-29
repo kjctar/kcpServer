@@ -1,17 +1,19 @@
 #include"udpConnection.h"
+
 #include"../kcp/ikcp.h"
-#include"../base/timerQueue.h"
+#ifndef KCPCON_H_
+#define KCPCON_H_
 class kcpConnection:public udpConnection
 {
     private:
     
         ikcpcb *kcp;
-        timerQueue &tmq;
+      
 
     public:
         kcpConnection()=default;
         kcpConnection(std::string selfIp,int selfPort,std::string peerIp,int peerPort,
-                                std::function<void(std::string)> msgDeal,timerQueue &tmq);
+                                std::function<void(std::string)> msgDeal);
         
         void getMsg();
       
@@ -28,3 +30,4 @@ class kcpConnection:public udpConnection
         
 };
 
+#endif

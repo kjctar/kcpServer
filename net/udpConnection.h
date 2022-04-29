@@ -15,6 +15,8 @@
 #include <sys/resource.h>
 #include<memory>
 #include<functional>
+#ifndef UDPCON_H_
+#define UDPCON_H_
 /**
  * @brief udp是没有连接概念的，那么这里就是实现模拟tcp连接的udp
  *        有以下几点：
@@ -31,20 +33,23 @@ class udpConnection{
         void *user;//指向用户结构 ，用来自定义连接信息
         //广播回调函数
         std::function<void(std::string)> cb;
+        std::function<void(long,std::function<void()>)> addTimerTask;
         udpConnection()=default;
         udpConnection(std::string selfIp,int selfPort,std::string peerIp,int peerPort,
                             std::function<void(std::string)> msgDeal);
-       
+        void connectServer(){
+            write(socketFd,"1",1);
+        }
         int getFd(){
             return socketFd;
         }
         virtual void getMsg();
-            
+      
         virtual void sendMsg(std::string msg);
         virtual ~udpConnection(){
             close(socketFd);
         }
 
-           
-
  };
+ enum ConnectionType {UDP,KCP};
+ #endif

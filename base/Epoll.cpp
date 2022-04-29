@@ -33,7 +33,7 @@ bool Epoll::registChannel(int op,int fd ,uint32_t event,std::function<void()> ha
         et.data.fd=fd;
         et.events=event;
         
-        std::cout<<"op:"<<EPOLL_CTL_ADD<<"  fd:"<<fd<<" listen:"<<et.events<<std::endl;
+        //std::cout<<"op:"<<EPOLL_CTL_ADD<<"  fd:"<<fd<<" listen:"<<et.events<<std::endl;
         int re=epoll_ctl(epollFd,op,fd,&et);
         if(re<0){
             std::cout<<"添加失败"<<std::endl;

@@ -364,8 +364,11 @@ int ikcp_recv(ikcpcb *kcp, char *buffer, int len)
 	IKCPSEG *seg;
 	assert(kcp);
 
-	if (iqueue_is_empty(&kcp->rcv_queue))
+	if (iqueue_is_empty(&kcp->rcv_queue)){
+		
 		return -1;
+	}
+		
 
 	if (len < 0) len = -len;
 
@@ -682,6 +685,7 @@ static void ikcp_ack_get(const ikcpcb *kcp, int p, IUINT32 *sn, IUINT32 *ts)
 //---------------------------------------------------------------------
 void ikcp_parse_data(ikcpcb *kcp, IKCPSEG *newseg)
 {
+
 	struct IQUEUEHEAD *p, *prev;
 	IUINT32 sn = newseg->sn;
 	int repeat = 0;
@@ -705,10 +709,12 @@ void ikcp_parse_data(ikcpcb *kcp, IKCPSEG *newseg)
 	}
 
 	if (repeat == 0) {
+		
 		iqueue_init(&newseg->node);
 		iqueue_add(&newseg->node, p);
 		kcp->nrcv_buf++;
 	}	else {
+		
 		ikcp_segment_delete(kcp, newseg);
 	}
 
@@ -720,9 +726,11 @@ void ikcp_parse_data(ikcpcb *kcp, IKCPSEG *newseg)
 	// move available data from rcv_buf -> rcv_queue
 	while (! iqueue_is_empty(&kcp->rcv_buf)) {
 		IKCPSEG *seg = iqueue_entry(kcp->rcv_buf.next, IKCPSEG, node);
+	
 		if (seg->sn == kcp->rcv_nxt && kcp->nrcv_que < kcp->rcv_wnd) {
 			iqueue_del(&seg->node);
 			kcp->nrcv_buf--;
+			
 			iqueue_add_tail(&seg->node, &kcp->rcv_queue);
 			kcp->nrcv_que++;
 			kcp->rcv_nxt++;

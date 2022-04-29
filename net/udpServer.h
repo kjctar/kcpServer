@@ -20,7 +20,8 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include<memory>
-#include"Epoll.h"
+#include"../base/Epoll.h"
+#include"../base/timerQueue.h"
 #include"kcpConnection.h"
 class udpServer{
     private:
@@ -30,7 +31,9 @@ class udpServer{
         std::shared_ptr<Epoll> poll;
         std::vector<std::unique_ptr<udpConnection>> connList;
         std::function<void(std::string)> msgDeal;
-        timerQueue tmq;
+        std::shared_ptr<timerQueue> tmq;
+        
+        ConnectionType type;
     public:
       
         
@@ -41,7 +44,7 @@ class udpServer{
         int listen(){
             return listenFd;
         }
-        udpServer(std::string IP,int PORT,std::shared_ptr<Epoll> ep);
+        udpServer(std::string IP,int PORT,std::shared_ptr<Epoll> ep,ConnectionType type);
         
         /**
          * @brief  再创建一个udp的socket 并connect对端地址和端口
@@ -52,6 +55,7 @@ class udpServer{
         void registMsgDeal(std::function<void(std::string)> deal){
             msgDeal=deal;
         }
+    
 
         void broadcast(std::string msg);
 

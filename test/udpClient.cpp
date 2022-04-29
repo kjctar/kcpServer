@@ -2,7 +2,7 @@
 #include<thread>
 #include<random>
 #include<iostream>
-void input(udpConnection conn){
+void input(udpConnection *conn){
     printf("进入线程\n");
     std::string msg;
 	//2 循环发送数据
@@ -10,7 +10,7 @@ void input(udpConnection conn){
     {
 		std::cout<<"input:";
 		std::cin>>msg;
-        conn.sendMsg(msg);
+        conn->sendMsg(msg);
 
     }
 }
@@ -35,15 +35,16 @@ int main(int argc, char * argv[])
     rad.seed(time(0));
     int myport=rad()%10000+10000;
     std::cout<<"port:"<<myport<<std::endl;
-    udpConnection conn=udpConnection("127.0.0.1",myport,argv[1],port,[&](std::string msg){
+    udpConnection *conn=new udpConnection("127.0.0.1",myport,argv[1],port,[&](std::string msg){
         std::cout<<"接受到服务器消息:"<<msg<<std::endl;
     });
+    conn->connectServer();
     
     printf("启动线程\n");
     std::thread t(input,conn);
      
 	while(true){
-        conn.getMsg();
+        conn->getMsg();
     }
     return 0;
 }
