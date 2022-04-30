@@ -8,12 +8,7 @@
  
 void testClock(Timer &tm){
     
-   
-    
-   
     long start=tm.now();
-   
-   
      __uint64_t t;
     read(tm.getTimerFd(),&t,sizeof(__uint64_t));
     
