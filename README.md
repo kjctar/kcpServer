@@ -1,12 +1,12 @@
 # kcpServer
 基于UDP+KCP+Epoll的消息转发服务器
-#### 进展
+## 进展
 - [x] 高并发udp消息转发
 - [x] 双缓存日志
 - [x] 定时器
 - [x] kcp
 
-#### 目录结构
+## 目录结构
 ├── base    
 │   ├── doubleBufferLog.cpp //双缓存日志  
 │   ├── doubleBufferLog.h  
@@ -38,8 +38,8 @@
     ├── udpClient  
     └── udpClient.cpp//测试udp收发  
 
-# Quick start
-##### 服务端   
+## Quick start
+### 服务端   
 > 编译：g++ main.cpp base/doubleBufferLog.cpp base/Epoll.cpp base/Timer.cpp base/timerQueue.cpp net/kcpConnection.cpp net/udpConnection.cpp net/udpServer.cpp kcp/ikcp.c -std=c++11 -pthread -o main   
 > 运行：./main   
 ```c++
@@ -60,7 +60,7 @@ int  main(){
     poll->loop();
 }
 ```
-## 客户端
+### 客户端
 >编译: g++ kcpClient.cpp net/kcpConnection.cpp   net/udpConnection.cpp  base/Timer.cpp kcp/ikcp.c -std=c++11 -pthread  -o kcpClient   
 >运行:    ./kcpClient 127.0.0.1 8000   
 ```c++
