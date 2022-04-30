@@ -62,7 +62,7 @@ int  main(){
 }
 ```
 >客户端   
->编译: g++ kcpClient.cpp net/kcpConnection.cpp   ../net/udpConnection.cpp  base/Timer.cpp kcp/ikcp.c -std=c++11 -pthread  -o kcpClient   
+>编译: g++ kcpClient.cpp net/kcpConnection.cpp   net/udpConnection.cpp  base/Timer.cpp kcp/ikcp.c -std=c++11 -pthread  -o kcpClient   
 >运行:    ./kcpClient 127.0.0.1 8000   
 ```c++
 #include"net/kcpConnection.h"
