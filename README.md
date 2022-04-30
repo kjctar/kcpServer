@@ -40,9 +40,9 @@
 
 #### Quick start
 
-> 服务端
-> 编译：g++ main.cpp base/doubleBufferLog.cpp base/Epoll.cpp base/Timer.cpp base/timerQueue.cpp net/kcpConnection.cpp net/udpConnection.cpp net/udpServer.cpp kcp/ikcp.c -std=c++11 -pthread -o main
-> 运行：./main
+> 服务端   
+> 编译：g++ main.cpp base/doubleBufferLog.cpp base/Epoll.cpp base/Timer.cpp base/timerQueue.cpp net/kcpConnection.cpp net/udpConnection.cpp net/udpServer.cpp kcp/ikcp.c -std=c++11 -pthread -o main   
+> 运行：./main   
 ```c++
 #include "net/udpServer.h"
 int  main(){
@@ -61,9 +61,9 @@ int  main(){
     poll->loop();
 }
 ```
->客户端
->编译: g++ kcpClient.cpp net/kcpConnection.cpp   ../net/udpConnection.cpp  base/Timer.cpp kcp/ikcp.c -std=c++11 -pthread  -o kcpClient
->运行:    ./kcpClient 127.0.0.1 8000
+>客户端   
+>编译: g++ kcpClient.cpp net/kcpConnection.cpp   ../net/udpConnection.cpp  base/Timer.cpp kcp/ikcp.c -std=c++11 -pthread  -o kcpClient   
+>运行:    ./kcpClient 127.0.0.1 8000   
 ```c++
 #include"net/kcpConnection.h"
 #include<thread>
