@@ -1,11 +1,13 @@
 # kcpServer
-基于UDP+KCP+Epoll的消息转发服务器
+基于UDP+KCP+Epoll的网络库
 ## 进展
 - [x] 高并发udp消息转发
 - [x] 双缓存日志
 - [x] 定时器
-- [x] kcp
-
+- [x] 支持kcp
+- [ ] 优化缓存
+- [ ] SSL加密
+- [ ] 压测
 ## 目录结构
 ├── base    
 │   ├── doubleBufferLog.cpp //双缓存日志  
