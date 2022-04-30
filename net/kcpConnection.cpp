@@ -1,4 +1,5 @@
 #include"kcpConnection.h"
+#include"../base/Timer.h"
 #include<iostream>
 kcpConnection::kcpConnection(std::string selfIp,int selfPort,std::string peerIp,int peerPort,
                 std::function<void(std::string)> msgDeal)
@@ -36,12 +37,13 @@ void kcpConnection::getMsg(){
 }
     
 void kcpConnection::sendMsg(std::string msg){
+    Timer tm;
     std::cout<<"发送："<<msg<<std::endl;
     ikcp_send(kcp,msg.data(),msg.size());
     update();
     if(addTimerTask!=nullptr){
        
-        addTimerTask(ikcp_check(kcp,clock()),std::bind(&kcpConnection::update,this));
+        addTimerTask(ikcp_check(kcp,tm.now()),std::bind(&kcpConnection::update,this));
        
     }
     return;
@@ -49,5 +51,6 @@ void kcpConnection::sendMsg(std::string msg){
 
 
 void kcpConnection::update(){
-    ikcp_update(kcp,clock());
+    Timer tm;
+    ikcp_update(kcp,tm.now());
 }

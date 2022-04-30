@@ -55,6 +55,7 @@
         "ratio": "cpp",
         "mutex": "cpp",
         "thread": "cpp",
-        "forward_list": "cpp"
+        "forward_list": "cpp",
+        "iomanip": "cpp"
     }
 }

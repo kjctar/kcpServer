@@ -2,6 +2,7 @@
 #include<unistd.h>
 #include<iostream>
 #include<queue>
+#include <chrono>
 /**
  * @brief 目前用于驱动update ，当服务器端发送数据时会设置一次重传的定时时间，当下次定时到了的时候如果不需要重传就关闭该定时器，直到下次再发送数据
  * 
@@ -34,7 +35,9 @@ class Timer
         int setTimer(long first,long interval);
        
         int getTimerFd();
-
+        long now(){
+           return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+        }
       
 };
 
