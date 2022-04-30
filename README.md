@@ -73,16 +73,16 @@ int  main(){
 void input(kcpConnection *conn){
     std::string msg;
     while (true){
-		std::cout<<"input:";
-		std::getline(std::cin,msg);
+        std::cout<<"input:";
+        std::getline(std::cin,msg);
         conn->sendMsg(msg);
         conn->update();
     }
 }
 int main(int argc, char * argv[]){
     if(argc != 3 || atoi(argv[2])<1025 || atoi(argv[2])>65535{
-		return -1;
-	}
+        return -1;
+    }
     std::default_random_engine rad;
     rad.seed(time(0));
     int myport=rad()%10000+10000;
