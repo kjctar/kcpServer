@@ -71,20 +71,16 @@ int  main(){
 #include<random>
 #include<iostream>
 void input(kcpConnection *conn){
-    printf("进入线程\n");
     std::string msg;
-	//2 循环发送数据
-    while (true)
-    {
+    while (true){
 		std::cout<<"input:";
 		std::getline(std::cin,msg);
         conn->sendMsg(msg);
         conn->update();
     }
 }
-int main(int argc, char * argv[])
-{
-    if(argc != 3 || atoi(argv[2])<1025 || atoi(argv[2])>65535){
+int main(int argc, char * argv[]){
+    if(argc != 3 || atoi(argv[2])<1025 || atoi(argv[2])>65535{
 		return -1;
 	}
     std::default_random_engine rad;
