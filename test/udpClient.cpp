@@ -40,7 +40,7 @@ int main(int argc, char * argv[])
     });
     conn->connectServer();
     
-    printf("启动线程\n");
+    std::cout<<"启动线程"<<std::endl;
     std::thread t(input,conn);
      
 	while(true){
