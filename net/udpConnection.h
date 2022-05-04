@@ -29,7 +29,7 @@ class udpConnection{
     protected:
         int socketFd;
     public:
-        
+        const int MAXBUF=1024*1024;
         void *user;//指向用户结构 ，用来自定义连接信息
         //广播回调函数
         std::function<void(std::string)> cb;
