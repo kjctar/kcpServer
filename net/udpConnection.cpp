@@ -5,6 +5,7 @@ udpConnection::udpConnection(std::string selfIp,int selfPort,std::string peerIp,
 
         int reuse = 1;
         //初始化对端 ip和端口
+        
         struct sockaddr_in peer_Addr;
         peer_Addr.sin_family = PF_INET;//使用IPv4协议
         peer_Addr.sin_port = htons(peerPort);//设置接收方端口号
@@ -45,10 +46,28 @@ udpConnection::udpConnection(std::string selfIp,int selfPort,std::string peerIp,
 }
  void udpConnection::getMsg(){
     int  ret;
-    char *recvBuffer=new char[MAXBUF];
-    ret=read(socketFd,recvBuffer,MAXBUF);
-    *(recvBuffer+ret)='\0';
-    cb(recvBuffer);
+    //char *recvBuffer=new char[MAXBUF];
+   
+    ret=read(socketFd,inputBuffer.writeAddr(),inputBuffer.freeSize());
+    if(ret<0){
+        //记录错误日志
+    }else{
+        inputBuffer.moveWriteIndex(ret);//更新缓存游标
+    }
+    
+    /************假设这里有解码器***********/
+    std::string msg;
+    int end=0;
+    for(int i=0;i<inputBuffer.size();i++){
+        msg+=inputBuffer[i];
+        end++;
+    }
+    inputBuffer.moveReadIndex(end);
+    /*****************************/
+    if(end!=0){ //如果解析出结果则回调信息
+        cb(msg);
+    }
+    
     return;
 }
     

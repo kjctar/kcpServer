@@ -15,6 +15,7 @@
 #include <sys/resource.h>
 #include<memory>
 #include<functional>
+#include"../base/Buffer.h"
 #ifndef UDPCON_H_
 #define UDPCON_H_
 /**
@@ -28,6 +29,7 @@
 class udpConnection{
     protected:
         int socketFd;
+        Buffer inputBuffer;
     public:
         const int MAXBUF=1024*1024;
         void *user;//指向用户结构 ，用来自定义连接信息
