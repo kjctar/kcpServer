@@ -14,6 +14,8 @@ void testClock(Timer &tm){
     std::cout<<tm.now()-start<<std::endl;
 
 }
+//cd test
+//g++ timerTest.cpp ../base/Timer.cpp -o timerTest
 int main(){
     Timer tm;
     tm.setTimer(5000,2000);//第一次超时时间和第一次超时后后续的超时间隔时间，单位都是ms
