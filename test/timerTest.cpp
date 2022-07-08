@@ -1,6 +1,5 @@
 #include"../base/Timer.h"
 #include <sys/time.h>
-#include "../kcp/ikcp.h"
 #include <chrono>
 #include <string>
 #include <iostream>
@@ -17,7 +16,8 @@ void testClock(Timer &tm){
 }
 int main(){
     Timer tm;
-    tm.setTimer(5000,0);
+    tm.setTimer(5000,2000);//第一次超时时间和第一次超时后后续的超时间隔时间，单位都是ms
+    while(true)
     testClock(tm);
     
     return 0;
